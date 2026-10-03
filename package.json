@@ -1,0 +1,20 @@
+{
+  "name": "robinhood-stock-tokens-cli",
+  "version": "1.0.0",
+  "description": "BlockVectra example: Robinhood Chain stock token activity dashboard via Data API and JSON-RPC",
+  "type": "module",
+  "main": "src/index.ts",
+  "scripts": {
+    "start": "tsx src/index.ts",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "viem": "^2.21.0"
+  },
+  "devDependencies": {
+    "@types/node": "^20.17.0",
+    "tsx": "^4.19.2",
+    "typescript": "^5.6.3"
+  },
+  "license": "MIT"
+}
