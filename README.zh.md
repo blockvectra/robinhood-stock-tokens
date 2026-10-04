@@ -30,7 +30,7 @@ Robinhood Chain 支持代币化真实世界资产（RWA），包括由 Robinhood
   - 每日活跃榜单：`GET /v1/data/robinhood_mainnet/stocks`（查询参数：`day`、`limit`）
   - 单代币历史指标：`GET /v1/data/robinhood_mainnet/stocks/{token}`
 - **计量与 CU 权重**：
-  - 各调用端点根据所执行的方法按实际权重计量消耗 CU，具体计费明细、费率与免费额度请参阅 [BlockVectra 定价页](https://blockvectra.com/zh/pricing/)。
+  - 各调用端点根据所执行的方法按实际权重计量消耗 CU，具体计费明细、费率与免费额度请参阅 [BlockVectra 定价页](https://blockvectra.com/zh/pricing/?ref=gh-robinhood-stock-tokens)。
 
 ---
 
@@ -38,8 +38,8 @@ Robinhood Chain 支持代币化真实世界资产（RWA），包括由 Robinhood
 
 调用接口需要配置 BlockVectra API key。
 
-- **Web 控制台开户**：前往 [BlockVectra 获取 API Key](https://blockvectra.com/zh/get-api-key/)。
-- **程序化开户**：自动化脚本、CI 流水线或 AI Agent 可通过钱包签名（EIP-191）免浏览器自主开户，详见[程序化开户指南](https://docs.blockvectra.com/zh/guides/programmatic-signup/)。
+- **Web 控制台开户**：前往 [BlockVectra 获取 API Key](https://blockvectra.com/zh/get-api-key/?ref=gh-robinhood-stock-tokens)。
+- **程序化开户**：自动化脚本、CI 流水线或 AI Agent 可通过钱包签名（EIP-191）免浏览器自主开户，详见[程序化开户指南](https://docs.blockvectra.com/zh/guides/programmatic-signup/?ref=gh-robinhood-stock-tokens)。
 
 配置环境变量：
 
@@ -110,11 +110,11 @@ npm start -- --token 0x1Cdad396DB64BDa184d5182A97Dd9B3C62100b7D
 
 ## 参考文档
 
-- [BlockVectra Robinhood Chain 指南](https://docs.blockvectra.com/zh/guides/robinhood-chain/)
-- [BlockVectra 代币化股票数据指南](https://docs.blockvectra.com/zh/guides/stocks/)
-- [BlockVectra 股票代币乘数指南](https://docs.blockvectra.com/zh/guides/stock-token-multiplier/)
+- [BlockVectra Robinhood Chain 指南](https://docs.blockvectra.com/zh/guides/robinhood-chain/?ref=gh-robinhood-stock-tokens)
+- [BlockVectra 代币化股票数据指南](https://docs.blockvectra.com/zh/guides/stocks/?ref=gh-robinhood-stock-tokens)
+- [BlockVectra 股票代币乘数指南](https://docs.blockvectra.com/zh/guides/stock-token-multiplier/?ref=gh-robinhood-stock-tokens)
 - [Robinhood Chain 股票代币 API 规范](https://docs.robinhood.com/chain/stock-token-apis/)
-- [BlockVectra 定价与计划](https://blockvectra.com/zh/pricing/)
+- [BlockVectra 定价与计划](https://blockvectra.com/zh/pricing/?ref=gh-robinhood-stock-tokens)
 
 ---
 
