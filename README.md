@@ -30,7 +30,7 @@ This application combines two BlockVectra interfaces with one API key:
   - Daily Leaderboard: `GET /v1/data/robinhood_mainnet/stocks` (parameters: `day`, `limit`)
   - Single Token Metrics: `GET /v1/data/robinhood_mainnet/stocks/{token}`
 - **Pricing & CU Weights**:
-  - Calls to each endpoint consume Compute Units (CU) based on actual method weights. For current rates, billing details, and free tier limits, refer to the [BlockVectra Pricing Page](https://blockvectra.com/en/pricing/).
+  - Calls to each endpoint consume Compute Units (CU) based on actual method weights. For current rates, billing details, and free tier limits, refer to the [BlockVectra Pricing Page](https://blockvectra.com/en/pricing/?ref=gh-robinhood-stock-tokens).
 
 ---
 
@@ -38,8 +38,8 @@ This application combines two BlockVectra interfaces with one API key:
 
 A BlockVectra API key is required to query the endpoints.
 
-- **Web Console**: Obtain a key via [BlockVectra Get API Key](https://blockvectra.com/en/get-api-key/).
-- **Programmatic Sign-up**: Automated workflows, CI pipelines, and AI agents can create accounts and provision API keys using wallet signatures (EIP-191) without a browser via the [Programmatic Sign-up Guide](https://docs.blockvectra.com/en/guides/programmatic-signup/).
+- **Web Console**: Obtain a key via [BlockVectra Get API Key](https://blockvectra.com/en/get-api-key/?ref=gh-robinhood-stock-tokens).
+- **Programmatic Sign-up**: Automated workflows, CI pipelines, and AI agents can create accounts and provision API keys using wallet signatures (EIP-191) without a browser via the [Programmatic Sign-up Guide](https://docs.blockvectra.com/en/guides/programmatic-signup/?ref=gh-robinhood-stock-tokens).
 
 Set the key as an environment variable:
 
@@ -110,11 +110,11 @@ npm start -- --token 0x1Cdad396DB64BDa184d5182A97Dd9B3C62100b7D
 
 ## References
 
-- [BlockVectra Robinhood Chain Guide](https://docs.blockvectra.com/en/guides/robinhood-chain/)
-- [BlockVectra Tokenized Stocks Guide](https://docs.blockvectra.com/en/guides/stocks/)
-- [BlockVectra Stock Token Multiplier Guide](https://docs.blockvectra.com/en/guides/stock-token-multiplier/)
+- [BlockVectra Robinhood Chain Guide](https://docs.blockvectra.com/en/guides/robinhood-chain/?ref=gh-robinhood-stock-tokens)
+- [BlockVectra Tokenized Stocks Guide](https://docs.blockvectra.com/en/guides/stocks/?ref=gh-robinhood-stock-tokens)
+- [BlockVectra Stock Token Multiplier Guide](https://docs.blockvectra.com/en/guides/stock-token-multiplier/?ref=gh-robinhood-stock-tokens)
 - [Robinhood Chain Stock Token APIs](https://docs.robinhood.com/chain/stock-token-apis/)
-- [BlockVectra Pricing](https://blockvectra.com/en/pricing/)
+- [BlockVectra Pricing](https://blockvectra.com/en/pricing/?ref=gh-robinhood-stock-tokens)
 
 ---
 
