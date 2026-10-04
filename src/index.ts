@@ -169,8 +169,8 @@ Options:
     console.error(`\nError: ${message}`);
     if (message.includes("401") || message.includes("missing_api_key")) {
       console.error("\nA BlockVectra API key is required. Set BLOCKVECTRA_API_KEY in your environment.");
-      console.error("- Get API Key: https://blockvectra.com/en/get-api-key/");
-      console.error("- Programmatic Sign-up: https://docs.blockvectra.com/en/guides/programmatic-signup/");
+      console.error("- Get API Key: https://blockvectra.com/en/get-api-key/?ref=gh-robinhood-stock-tokens");
+      console.error("- Programmatic Sign-up: https://docs.blockvectra.com/en/guides/programmatic-signup/?ref=gh-robinhood-stock-tokens");
     }
     process.exit(1);
   }
