@@ -5,8 +5,12 @@
   "type": "module",
   "main": "src/index.ts",
   "scripts": {
-    "start": "tsx src/index.ts",
+    "start": "node --env-file-if-exists=.env --import tsx src/index.ts",
+    "test": "node --test tests/startup.test.mjs",
     "typecheck": "tsc --noEmit"
+  },
+  "engines": {
+    "node": ">=24"
   },
   "dependencies": {
     "viem": "^2.21.0"
