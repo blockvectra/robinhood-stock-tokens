@@ -2,6 +2,8 @@
 
 本示例展示如何通过 BlockVectra Data API 与 JSON-RPC，在命令行中查询 Robinhood Chain 上股票代币的链上活动数据及合约状态。
 
+本示例展示的是链上活动与 ERC-8056 公司行动乘数，不是每日股票价格服务，也不提供行情报价。
+
 > **免责声明**：链上活动数据，不是股价，不构成投资建议。
 
 ---
@@ -12,7 +14,7 @@ Robinhood Chain 支持代币化真实世界资产（RWA），包括由 Robinhood
 
 本项目使用同一个 API key 组合调用 BlockVectra 的两个接口服务：
 1. **BlockVectra Data API**：通过 `GET /v1/data/robinhood_mainnet/stocks` 获取代币化股票的每日聚合链上指标（持有人数、转账数、活跃收发地址、DEX 成交量等）。
-2. **BlockVectra JSON-RPC**：通过 `eth_call` 直接读取代币合约的 `uiMultiplier()` 方法获取链上最新乘数。
+2. **BlockVectra JSON-RPC**：通过 `eth_call` 直接读取代币合约的 `uiMultiplier()` 方法获取链上最新乘数。该路径仅在显式传入 `--with-multiplier` 时启用；默认只查 Data API，不创建 RPC client。
 
 ---
 
@@ -50,10 +52,8 @@ export BLOCKVECTRA_API_KEY="your_api_key_here"
 ### 未携带 Key 时的行为
 
 在未提供 API key 时发起请求：
-- **Data API** 返回 HTTP `401 Unauthorized`，响应体为 `{"error":{"code":"missing_api_key","message":"missing API key: send it in the x-api-key header"}}`。
-- **JSON-RPC** 返回 HTTP `401 Unauthorized`，错误码为 `-32024`（`missing_api_key`）。
-
-CLI 会捕获该未授权状态并提示配置环境变量。
+- **Data API** 返回 HTTP `401 Unauthorized`，响应体为 `{"error":{"code":"missing_api_key","message":"missing API key: send it in the x-api-key header"}}`。CLI 会识别该状态并提示配置 `BLOCKVECTRA_API_KEY`。
+- **JSON-RPC** 的鉴权行为取决于所配置端点的链与 method 策略：部分端点允许公开读取，另一些则要求身份信息或针对特定 method 提供 API key。可选的 multiplier 路径复用同一个 `BLOCKVECTRA_API_KEY` 并通过 `x-api-key` 传递，因此本示例不需要额外的 RPC 凭据。
 
 ---
 
@@ -90,6 +90,8 @@ CLI 会捕获该未授权状态并提示配置环境变量。
 npm start
 ```
 
+默认只发起 1 次 Data API 请求，不发起任何 JSON-RPC 请求。表头会显示请求的 UTC 日期（未指定时为 `latest recorded`）以及响应元数据；每一行显示该行实际记录的 UTC `Day`。
+
 ### 2. 指定日期与返回数量
 
 ```bash
@@ -105,14 +107,38 @@ npm start -- --day 2026-09-30 --limit 5
 npm start -- --token 0x1Cdad396DB64BDa184d5182A97Dd9B3C62100b7D
 ```
 
-### 4. 命令行参数
+### 4. 读取公司行动乘数（可选）
+
+只有显式传入 `--with-multiplier` 时才会查询 `uiMultiplier()`。CLI 会先确认 RPC 端点报告的 chain ID 为 `4663`，然后按顺序读取代币乘数；榜单模式最多读取前 10 行：
+
+```bash
+npm start -- --with-multiplier
+npm start -- --token 0x1Cdad396DB64BDa184d5182A97Dd9B3C62100b7D --with-multiplier
+```
+
+chain ID 不符或无法验证时，会在任何 `eth_call` 之前以非零状态退出。单行读取失败显示 `unavailable`，超过 10 次调用上限的行显示 `not queried (limit 10)`。CLI 不会用 0 或猜测值填充失败结果。
+
+### 5. 命令行参数
 
 | 参数 | 说明 | 默认值 |
 |---|---|---|
 | `--token <address>` | 查询指定股票代币合约详情与近期历史指标 | 无 |
 | `--day <YYYY-MM-DD>` | 查询指定 UTC 日期的活跃榜单 | 最新记录日期 |
 | `--limit <number>` | 榜单展示条数（1–500） | `10` |
+| `--with-multiplier` | 校验 chain ID `4663` 并通过 JSON-RPC 读取 `uiMultiplier()` | 关闭 |
 | `--help`, `-h` | 查看帮助说明 | |
+
+---
+
+## 请求预算、数据新鲜度与输出
+
+- **默认预算**：恰好 1 次 Data API `GET`、0 次 JSON-RPC 请求。未传入 `--with-multiplier` 时不会创建 RPC client。
+- **可选路径预算**：最多 1 次 Data API `GET`、1 次 `eth_chainId` 校验和 10 次顺序执行的 `eth_call`，合计最多 12 次请求。乘数读取不并发，也不重试。
+- **超时**：每次 Data API 请求使用 `AbortSignal.timeout(10_000)`；JSON-RPC transport 使用 `timeout: 10_000` 和 `retryCount: 0`。
+- **日期**：榜单表头打印请求的 UTC `--day` 或 `latest recorded`；榜单每一行打印该行实际记录的 `Day`。单代币模式保留近期每日活动表中的 `Day` 列。
+- **元数据**：两种模式都会打印响应原始的 `meta.refreshed_at` 与 `meta.as_of_block`；字段缺失或为 null 时显示 `unknown`。`refreshed_at` 缺失或为 null 时还会打印 `Freshness: unknown (treat as stale)`。仅有 `as_of_block` 不代表数据是当日数据，也不代表实时行情。
+- **空结果**：先输出元数据，再输出原有的 `No stock tokens recorded for the requested date.` 信息，命令以 `0` 退出且不发起任何 RPC 请求。
+- **不新增陈旧时长阈值**：CLI 只报告来源元数据，把新鲜度判断留给调用方；不会自行定义时间窗口，也不会改变乘数计算公式与精度。
 
 ---
 
