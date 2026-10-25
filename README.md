@@ -57,6 +57,12 @@ The CLI detects unauthenticated responses and informs you how to set the environ
 
 ---
 
+## Requirements
+
+- **Node.js 24 or newer**. The `start` script uses Node's built-in `--env-file-if-exists` flag.
+
+---
+
 ## Installation & Setup
 
 1. **Install dependencies**:
@@ -64,11 +70,13 @@ The CLI detects unauthenticated responses and informs you how to set the environ
    npm install
    ```
 
-2. **Configure environment** (optional):
+2. **Configure environment**:
    ```bash
    cp .env.example .env
    # Edit .env and fill in BLOCKVECTRA_API_KEY
    ```
+
+   `npm start` loads `.env` automatically when the file exists. Exported environment variables take precedence over values in `.env`, so an existing `BLOCKVECTRA_API_KEY` export overrides the file. You can also skip `.env` entirely and export `BLOCKVECTRA_API_KEY` (plus any optional endpoint overrides) directly; `npm start` runs without a `.env` file.
 
 ---
 

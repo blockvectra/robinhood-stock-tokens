@@ -57,6 +57,12 @@ CLI 会捕获该未授权状态并提示配置环境变量。
 
 ---
 
+## 运行要求
+
+- **Node.js 24 或更高版本**。`start` 脚本使用 Node 内置的 `--env-file-if-exists` 参数。
+
+---
+
 ## 安装与运行
 
 1. **安装依赖**：
@@ -64,11 +70,13 @@ CLI 会捕获该未授权状态并提示配置环境变量。
    npm install
    ```
 
-2. **配置环境变量**（可选）：
+2. **配置环境变量**：
    ```bash
    cp .env.example .env
    # 在 .env 中填入 BLOCKVECTRA_API_KEY
    ```
+
+   `npm start` 会在 `.env` 存在时自动读取。已经导出的环境变量优先于 `.env` 中的同名值，例如已有的 `BLOCKVECTRA_API_KEY` 会覆盖文件中的配置。也可以不创建 `.env`，直接导出 `BLOCKVECTRA_API_KEY`（以及可选的端点覆盖变量）；没有 `.env` 时 `npm start` 同样可以运行。
 
 ---
 
